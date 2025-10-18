@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 const Contact = () => {
@@ -13,20 +14,27 @@ const Contact = () => {
   ];
 
   const handleChange = (e) => {
-    console.log('Field:', e.target.name, 'Value:', e.target.value); // Debug log
+    console.log('Field:', e.target.name, 'Value:', e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData); // Debug log
     setStatus('Sending...');
+
+    console.log('Form Submitted:', formData);
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setStatus('Message sent successfully! We will be in touch soon.');
-      setFormData({ name: '', email: '', message: '' });
+      const response = await axios.post('http://localhost:3001/api/send-email', formData);
+      if (response.data.success) {
+        setStatus('Message sent successfully! We will be in touch soon.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setStatus('Failed to send message. Please try again.');
+      }
     } catch (error) {
-      setStatus('Failed to send message. Please check your network and try again.');
+      console.error('Error sending form:', error.response?.data || error.message);
+      setStatus('Failed to send message. Please check your connection and try again.');
     }
   };
 
@@ -120,7 +128,7 @@ const Contact = () => {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className=" text-gray-900 w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gold-500 transition-colors"
+                    className="text-gray-900 w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gold-500 transition-colors"
                     required
                   />
                 )}
