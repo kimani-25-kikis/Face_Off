@@ -1,4 +1,4 @@
-// src/components/Services.jsx (Enhanced)
+// src/components/Services.jsx 
 import React from 'react';
 import { motion } from 'framer-motion';
 // Icons imported from react-icons/md and react-icons/fa

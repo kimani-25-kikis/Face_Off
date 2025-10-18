@@ -1,4 +1,4 @@
-// src/components/Talent.jsx (Enhanced)
+// src/components/Talent.jsx 
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGraduationCap, FaTheaterMasks, FaMicrophone } from 'react-icons/fa'; // Icons for categories
@@ -9,18 +9,18 @@ const talentCategories = [
     category: 'Fashion & Editorial',
     icon: FaGraduationCap,
     data: [
-      { name: 'Model 1', role: 'Fashion Model', image: '/p1.jpeg' },
-      { name: 'Model 3', role: 'Runway Specialist', image: '/p2.jpeg' },
-      { name: 'Model 5', role: 'Commercial Lead', image: '/Port2.jpeg' }, // Added placeholder
+      { name: 'Model 1', role: 'Fashion Model', image: '/Face_Off/p1.jpeg' },
+      { name: 'Model 3', role: 'Runway Specialist', image: '/Face_Off/p2.jpeg' },
+      { name: 'Model 5', role: 'Commercial Lead', image: '/Face_Off/Port2.jpeg' }, // Added placeholder
     ],
   },
   {
     category: 'Acting & Performance',
     icon: FaTheaterMasks,
     data: [
-      { name: 'Model 2', role: 'Actor (TV/Film)', image: '/p3.jpeg' },
-      { name: 'Model 4', role: 'Voice Over Artist', image: '/Port1.jpeg' }, // Added placeholder
-      { name: 'Model 6', role: 'Stunt Performer', image: '/Port3.jpeg' }, // Added placeholder
+      { name: 'Model 2', role: 'Actor (TV/Film)', image: '/Face_Off/p3.jpeg' },
+      { name: 'Model 4', role: 'Voice Over Artist', image: '/Face_Off/Port1.jpeg' }, // Added placeholder
+      { name: 'Model 6', role: 'Stunt Performer', image: '/Face_Off/Port3.jpeg' }, // Added placeholder
     ],
   },
   {
@@ -28,9 +28,9 @@ const talentCategories = [
     category: 'Event Performers & Hosts',
     icon: FaMicrophone,
     data: [
-      { name: 'Performer 7', role: 'Event Host/MC', image: '/Port1.jpeg' }, // Placeholder for your first Event Performer photo
-      { name: 'Performer 8', role: 'Dancer/Choreographer', image: '/Port2.jpeg' }, // Placeholder for your second Event Performer photo
-      { name: 'Performer 9', role: 'Spoken Word Artist', image: '/Port3.jpeg' }, // Placeholder for your third Event Performer photo
+      { name: 'Performer 7', role: 'Event Host/MC', image: '/Face_Off/Port1.jpeg' }, // Placeholder for your first Event Performer photo
+      { name: 'Performer 8', role: 'Dancer/Choreographer', image: '/Face_Off/Port2.jpeg' }, // Placeholder for your second Event Performer photo
+      { name: 'Performer 9', role: 'Spoken Word Artist', image: '/Face_Off/Port3.jpeg' }, // Placeholder for your third Event Performer photo
     ],
   },
 ];

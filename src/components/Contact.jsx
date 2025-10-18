@@ -1,7 +1,6 @@
-// src/components/Contact.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaEnvelope, FaWhatsapp, FaPhoneAlt, FaInstagram } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -14,14 +13,15 @@ const Contact = () => {
   ];
 
   const handleChange = (e) => {
+    console.log('Field:', e.target.name, 'Value:', e.target.value); // Debug log
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form Submitted:', formData); // Debug log
     setStatus('Sending...');
     try {
-      console.log('Form Submitted:', formData);
       await new Promise(resolve => setTimeout(resolve, 1500));
       setStatus('Message sent successfully! We will be in touch soon.');
       setFormData({ name: '', email: '', message: '' });
@@ -31,7 +31,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 lg:py-32 bg-gray-900 text-white">
+    <section id="contact" className="py-40 lg:py-32 bg-gray-900 text-white relative z-10">
       <div className="container mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -91,11 +91,7 @@ const Contact = () => {
               </div>
             </div>
           </motion.div>
-          <motion.form
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+          <form
             onSubmit={handleSubmit}
             className="p-8 lg:p-12 rounded-xl bg-white shadow-2xl space-y-6"
           >
@@ -114,10 +110,9 @@ const Contact = () => {
                     value={formData[field]}
                     onChange={handleChange}
                     rows="5"
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gold-500 transition-colors resize-y"
+                    className="text-gray-900 w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gold-500 transition-colors resize-y"
                     required
-                    autoComplete="off"
-                  ></textarea>
+                  />
                 ) : (
                   <input
                     type={field === 'email' ? 'email' : 'text'}
@@ -125,35 +120,29 @@ const Contact = () => {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gold-500 transition-colors"
+                    className=" text-gray-900 w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gold-500 transition-colors"
                     required
-                    autoComplete="off"
                   />
                 )}
               </div>
             ))}
-            <motion.button
+            <button
               type="submit"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               className="w-full bg-gold-600 text-gray-900 px-6 py-4 rounded-lg font-bold text-lg uppercase tracking-wider hover:bg-gold-500 transition-colors duration-200 shadow-xl focus:ring-4 focus:ring-gold-300 focus:ring-opacity-50"
               disabled={status === 'Sending...'}
             >
               {status === 'Sending...' ? 'Sending...' : 'Book Your Talent'}
-            </motion.button>
+            </button>
             {status && status !== 'Sending...' && (
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
+              <p
                 className={`text-center font-semibold text-lg py-2 rounded ${
                   status.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                 }`}
               >
                 {status}
-              </motion.p>
+              </p>
             )}
-          </motion.form>
+          </form>
         </div>
       </div>
     </section>

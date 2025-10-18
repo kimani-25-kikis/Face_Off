@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [tailwindcss(), react()],
+  base: '/Face_Off/',
   server: {
     port: 3000, // Runs on http://localhost:3000
     open: true, // Automatically opens in browser

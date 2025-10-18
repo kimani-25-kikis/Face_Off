@@ -1,4 +1,4 @@
-// src/components/PortfolioHighlight.jsx (Enhanced Card)
+// src/components/PortfolioHighlight.jsx 
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaInstagram, FaYoutube } from 'react-icons/fa';

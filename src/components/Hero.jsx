@@ -17,7 +17,7 @@ const Hero = () => {
       {/* ✅ Background Image with Overlay (behind all content) */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out pointer-events-none"
-        style={{ backgroundImage: 'url(/Port3.jpeg)' }}
+        style={{ backgroundImage: 'url(/Face_Off/Port3.jpeg)' }}
       >
         <div className="absolute inset-0 bg-black opacity-70 z-0"></div>
       </div>
