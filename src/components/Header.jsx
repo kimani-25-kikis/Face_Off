@@ -2,43 +2,77 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-// --- SVG Icons (Replacement for react-icons/fa and others) ---
+// -------------------------------------------------------------------
+// 1. SVG Icons (Used within this component)
+//    - Using clean, professional icons suitable for a classic portfolio.
+// -------------------------------------------------------------------
 
 // Instagram Icon
 const IconInstagram = (props) => (
-  <svg {...props} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path fillRule="evenodd" d="M12.3 3.012c-.516 0-1.745-.008-3.923-.008-2.179 0-3.411.008-3.927.008-1.716 0-3.136 1.42-3.136 3.136 0 .516.008 1.745.008 3.923 0 2.179-.008 3.411-.008 3.927 0 1.716 1.42 3.136 3.136 3.136.516 0 1.745.008 3.923.008 2.179 0 3.411-.008 3.927-.008 1.716 0 3.136-1.42 3.136-3.136 0-.516-.008-1.745-.008-3.923 0-2.179.008-3.411.008-3.927 0-1.716-1.42-3.136-3.136-3.136zm-3.923 16.353c-2.072 0-3.766-1.694-3.766-3.766 0-2.072 1.694-3.766 3.766-3.766 2.072 0 3.766 1.694 3.766 3.766 0 2.072-1.694 3.766-3.766 3.766zm-5.498-13.673a.85.85 0 11-1.7 0 .85.85 0 011.7 0zm10.748 7.37c0 3.23-2.617 5.847-5.847 5.847-3.23 0-5.847-2.617-5.847-5.847 0-3.23 2.617-5.847 5.847-5.847 3.23 0 5.847 2.617 5.847 5.847z" clipRule="evenodd"/>
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-instagram">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
   </svg>
 );
 
-// Menu Bar Icon (FaBars)
+// Menu Bar Icon (Hamburger)
 const IconBars = (props) => (
-  <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/></svg>
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu">
+    <line x1="4" x2="20" y1="12" y2="12"/>
+    <line x1="4" x2="20" y1="6" y2="6"/>
+    <line x1="4" x2="20" y1="18" y2="18"/>
+  </svg>
 );
 
-// Close Icon (FaTimes)
+// Close Icon (X)
 const IconTimes = (props) => (
-  <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/></svg>
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x">
+    <path d="M18 6 6 18"/>
+    <path d="m6 6 12 12"/>
+  </svg>
 );
 
-// Navigation Icons (Mapping)
+// Navigation Icons (Mapping) - Using professional, clear icons
 const NavIcons = {
   about: (props) => (
-    <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/></svg>
-  ), // Info/About Icon
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-notebook-text">
+      <path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/>
+      <rect width="16" height="20" x="4" y="2" rx="2"/>
+    </svg>
+  ),
   portfolio: (props) => (
-    <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-  ), // Grid/Portfolio Icon
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-layers">
+      <path d="m12 1.8 8 4.5-8 4.5-8-4.5 8-4.5z"/>
+      <path d="m20 12.3-8 4.5-8-4.5"/>
+      <path d="m20 16.8-8 4.5-8-4.5"/>
+    </svg>
+  ),
   services: (props) => (
-    <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-.21-.83-.34-1.3-.34-1.54 0-3.04.99-3.32 2.37l-1.3 6.13-.19 1.1-.11.55-.13.63a.5.5 0 00.17.65l1.66 1.11c.14.09.3.14.47.14h7.02c.18 0 .34-.05.47-.14l1.66-1.11a.5.5 0 00.17-.65l-.13-.63-.11-.55-.19-1.1-1.3-6.13c-.28-1.38-1.78-2.37-3.32-2.37zM9 14.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM10 5.5a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd"/></svg>
-  ), // Handshake/Service Icon
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-briefcase">
+      <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+      <path d="M16 21V19a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+    </svg>
+  ),
   talent: (props) => (
-    <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/></svg>
-  ), // User/Talent Icon
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-users">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+  ),
   contact: (props) => (
-    <svg {...props} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M17.778 12.607A8.001 8.001 0 005.471 4.793l.707.707A7.001 7.001 0 0116.595 13.4l-.707.707zM15.364 8.793a5.001 5.001 0 00-7.072 0l.707.707a4.001 4.001 0 015.657 0l-.707.707zM13.95 6.38a3.001 3.001 0 00-4.243 0l.707.707a2.001 2.001 0 012.828 0l-.707.707zM9.9 15.6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"/></svg>
-  ), // Globe/Contact Icon
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-mail">
+      <rect width="20" height="16" x="2" y="4" rx="2"/>
+      <path d="m22 7-8.97 5.7a1.83 1.83 0 0 1-2.06 0L2 7"/>
+    </svg>
+  ),
 };
+
+// -------------------------------------------------------------------
+// 2. Header Component (Refined)
+// -------------------------------------------------------------------
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,53 +82,60 @@ const Header = () => {
     { name: 'About', href: '#about', icon: NavIcons.about },
     { name: 'Portfolio', href: '#portfolio', icon: NavIcons.portfolio },
     { name: 'Services', href: '#services', icon: NavIcons.services },
-    { name: 'Talent', href: '#talent', icon: NavIcons.talent },
+    { name: 'Talent Roster', href: '#talent', icon: NavIcons.talent }, // Renamed from 'Talent' for formality
     { name: 'Contact', href: '#contact', icon: NavIcons.contact },
   ];
 
-  // Define Color Classes
-  const headerBg = "bg-gray-900";
+  // Define Classic Color Classes: Deep Charcoal + Rich Gold
+  const headerBg = "bg-gray-800";
   const headerText = "text-white";
-  const goldAccent = "text-gold-500";
-  const hoverColor = "hover:text-gold-300";
+  const goldAccent = "text-amber-400"; // Richer gold than default
+  const hoverColor = "hover:text-amber-300";
 
   return (
-    <header className={`fixed top-0 left-0 w-full ${headerBg} ${headerText} z-50 shadow-2xl`}>
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center h-20">
+    <header className={`fixed top-0 left-0 w-full ${headerBg} ${headerText} z-50 shadow-xl border-b border-amber-900/50`}>
+      {/* Increased vertical padding (py-5) for better spacing/height */}
+      <nav className="container mx-auto px-6 py-5 flex justify-between items-center transition-all duration-300">
         
-        {/* Logo/Brand Title */}
+        {/* Logo/Brand Title: Uses font-serif for authority, better spacing */}
         <Link 
           to="/" 
-          className={`text-2xl sm:text-3xl font-serif font-extrabold tracking-tight transition-colors duration-200 ${goldAccent}`}
+          className="group focus:outline-none"
           onClick={() => setIsOpen(false)}
         >
           <motion.span
-             initial={{ opacity: 0, y: -10 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ type: "spring", stiffness: 100 }}
+            // Larger text and bold serif font for a classic look
+            className={`text-3xl lg:text-4xl font-serif font-bold tracking-tight transition-colors duration-300 ${goldAccent}`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 100 }}
           >
             FACE OFF
           </motion.span>
-          <span className="block text-xs font-sans font-normal tracking-widest text-white mt-[-4px]">
+          {/* Tagline is font-sans, uppercase, and widely tracked for elegance */}
+          <span className="block text-xs font-sans font-medium tracking-widest text-gray-400 uppercase mt-[-2px] group-hover:text-amber-400 transition-colors duration-300">
             Model & Cast Management
           </span>
         </Link>
         
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex md:space-x-8">
+        {/* Desktop Navigation: Changed spacing to space-x-12 and text size to base */}
+        <ul className="hidden md:flex md:space-x-12">
           {navItems.map((item) => (
             <motion.li 
               key={item.name} 
               className="group"
-              whileHover={{ scale: 1.05 }} // Interaction on hover
+              whileHover={{ y: -2 }} // Subtle interaction
             >
               <a
                 href={item.href}
-                className={`flex items-center space-x-2 text-base font-sans font-medium uppercase ${headerText} ${hoverColor} transition-colors duration-200 border-b-2 border-transparent group-hover:border-gold-500 pb-1`}
+                // CHANGED: text-lg to text-base to accommodate wider spacing
+                className={`flex items-center space-x-2 text-base font-serif font-medium uppercase tracking-wider ${headerText} ${hoverColor} transition-all duration-300 relative`}
               >
                 {/* Icon for desktop view */}
-                <item.icon className="w-5 h-5 transition-colors duration-200 group-hover:text-gold-500" />
+                <item.icon className={`w-5 h-5 ${goldAccent} flex-shrink-0 group-hover:text-amber-300 transition-colors duration-200`} />
                 <span>{item.name}</span>
+                {/* Custom underline effect for a clean, classic accent */}
+                <span className="absolute left-0 bottom-[-5px] w-full h-0.5 bg-amber-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
               </a>
             </motion.li>
           ))}
@@ -106,29 +147,32 @@ const Header = () => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Visit our Instagram"
-          className="hidden md:block"
-          whileHover={{ scale: 1.2, color: '#FCD34D' }} // Gold color on hover
-          whileTap={{ scale: 0.9 }}
+          // Styled as a subtle, bordered button
+          className="hidden md:flex items-center space-x-2 text-sm uppercase font-sans font-medium transition-all duration-300 rounded-full p-2 border border-amber-400/50 hover:bg-amber-400 hover:text-gray-800"
+          whileHover={{ scale: 1.05 }} 
+          whileTap={{ scale: 0.95 }}
         >
-          <IconInstagram size={24} className={`w-7 h-7 ${goldAccent} transition-colors duration-200`} />
+          <IconInstagram className="w-5 h-5" />
+          <span className="hidden lg:inline">Instagram</span>
         </motion.a>
         
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button & Instagram */}
         <div className="md:hidden flex items-center space-x-4">
           <motion.a
-              href="https://instagram.com/face_of.modelncastmanagement"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit our Instagram"
-              className="block"
-              whileHover={{ scale: 1.1 }}
+            href="https://instagram.com/face_of.modelncastmanagement"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit our Instagram"
+            className="p-1 rounded-full border border-transparent hover:border-amber-400 transition-colors duration-200"
+            whileHover={{ scale: 1.1 }}
           >
-              <IconInstagram className={`w-6 h-6 ${goldAccent} transition-colors duration-200`} />
+            <IconInstagram className={`w-7 h-7 ${goldAccent} transition-colors duration-200`} />
           </motion.a>
+
           <button
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle navigation menu"
-            className={`focus:outline-none p-2 rounded ${goldAccent} transition-colors duration-200`}
+            className={`focus:outline-none p-2 rounded ${goldAccent} transition-colors duration-200 hover:bg-amber-400/10`}
           >
             <motion.div
                 initial={false}
@@ -136,8 +180,8 @@ const Header = () => {
                 transition={{ duration: 0.3 }}
             >
               {isOpen 
-                ? <IconTimes className="w-6 h-6" /> 
-                : <IconBars className="w-6 h-6" />}
+                ? <IconTimes className="w-7 h-7" /> 
+                : <IconBars className="w-7 h-7" />}
             </motion.div>
           </button>
         </div>
@@ -148,28 +192,29 @@ const Header = () => {
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={{
-          open: { height: "auto", opacity: 1 },
-          closed: { height: 0, opacity: 0 },
+          // Added small padding to open/closed variants for smoother transition
+          open: { height: "auto", opacity: 1, paddingTop: "8px", paddingBottom: "8px" },
+          closed: { height: 0, opacity: 0, paddingTop: "0px", paddingBottom: "0px" },
         }}
-        transition={{ duration: 0.3 }}
-        className={`md:hidden overflow-hidden ${headerBg} shadow-inner pb-2`}
+        transition={{ duration: 0.3, ease: [0.17, 0.67, 0.83, 0.67] }} 
+        className={`md:hidden overflow-hidden ${headerBg} shadow-inner border-t border-amber-900/50`}
       >
-        {navItems.map((item) => (
+        {navItems.map((item, index) => (
           <motion.li 
             key={item.name} 
-            className="px-6 py-3 border-b border-gray-800 last:border-b-0"
+            className="px-6 py-3"
             variants={{
-              open: { opacity: 1, y: 0 },
-              closed: { opacity: 0, y: -20 },
+              open: { opacity: 1, y: 0, transition: { delay: index * 0.05 + 0.1 } },
+              closed: { opacity: 0, y: -20, transition: { duration: 0.1 } },
             }}
           >
             <a
               href={item.href}
-              className={`flex items-center space-x-4 text-lg font-sans font-bold ${headerText} ${hoverColor} transition-colors duration-200 block`}
+              // Text-xl and ample space-x-5 for large, touch-friendly targets (Mobile)
+              className={`flex items-center space-x-5 text-xl font-sans font-semibold ${headerText} hover:text-amber-400 transition-colors duration-200 block p-2 rounded-lg`}
               onClick={() => setIsOpen(false)}
             >
-              {/* Icon for mobile view */}
-              <item.icon className={`w-6 h-6 ${goldAccent}`} />
+              <item.icon className={`w-6 h-6 ${goldAccent} flex-shrink-0`} />
               <span>{item.name}</span>
             </a>
           </motion.li>

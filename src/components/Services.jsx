@@ -73,7 +73,7 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-4xl md:text-5xl font-serif font-extrabold mb-4 text-center tracking-tight text-gray-900"
+          className="text-4xl md:text-3xl font-serif font-extrabold mb-4 text-center tracking-tight text-gray-900"
         >
           Our Full Suite of Services
         </motion.h2>
