@@ -33,7 +33,6 @@ const IconMic = (props) => (
 const talentCategories = [
   {
     category: 'Fashion & Editorial Models',
-    // Updated icon reference to use the local SVG component
     icon: IconFeather, 
     data: [
       { name: 'Model 1', role: 'Fashion Model', image: '/Face_Off/p1.jpeg' },
@@ -43,7 +42,6 @@ const talentCategories = [
   },
   {
     category: 'Actors & Performers',
-    // Updated icon reference to use the local SVG component
     icon: IconUsers, 
     data: [
       { name: 'Model 2', role: 'Actor (TV/Film)', image: '/Face_Off/p3.jpeg' },
@@ -53,7 +51,6 @@ const talentCategories = [
   },
   {
     category: 'Event Hosts & MCs',
-    // Updated icon reference to use the local SVG component
     icon: IconMic, 
     data: [
       { name: 'Performer 7', role: 'Coopearate MC', image: '/Face_Off/p4.jpeg' }, 
@@ -101,12 +98,15 @@ const Talent = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          // Reduced font size for main heading: md:text-5xl (was md:text-6xl)
+          // Main heading margin kept
           className="text-3xl md:text-xl font-serif font-extrabold mb-10 text-center tracking-tight text-amber-400"
         >
           Featured Talent Roster
         </motion.h2>
-        <p className="text-sm text-center text-gray-400 mb-24 max-w-6xl mx-auto">
+        <p 
+            // Margin reduced from mb-24 to mb-16
+            className="text-sm text-center text-gray-400 mb-16 max-w-6xl mx-auto"
+        >
             Discover our curated, diverse range of creative professionals, categorized for easy casting and booking across high-profile projects.
         </p>
 
@@ -117,12 +117,14 @@ const Talent = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            // Category block spacing confirmed (mb-32)
-            className="mb-32" 
+            // Category block spacing reduced from mb-32 to mb-24
+            className="mb-24" 
           >
             {/* Category Header with Icon - Centered and stylized */}
-            <h3 className="flex items-center justify-center text-3xl font-bold font-sans text-stone-300 mb-16 pb-4 border-b-2 border-amber-500/50 max-w-2xl mx-auto">
-              {/* Reduced font size for category titles: text-3xl (was md:text-4xl) */}
+            <h3 
+                // Margin reduced from mb-16 to mb-10
+                className="flex items-center justify-center text-2xl font-bold font-sans text-stone-300 mb-5 pb-4 border-b-2 border-amber-500/50 max-w-2xl mx-auto"
+            >
               <category.icon className="w-8 h-8 text-amber-500 mr-3 shrink-0" /> 
               {category.category}
             </h3>
@@ -151,9 +153,8 @@ const Talent = () => {
                   
                   {/* Text Overlay/Bottom Section */}
                   <div className="p-6 text-center">
-                    {/* Reduced font size for talent names: text-xl (was text-2xl) */}
+                    {/* Talent names and roles font sizes confirmed as requested */}
                     <h4 className="text-xl font-serif font-extrabold text-white">{talent.name}</h4>
-                    {/* Reduced font size for roles: text-xs (was text-sm) */}
                     <p className="text-xs font-sans text-amber-400 uppercase tracking-widest mt-2">{talent.role}</p>
                   </div>
                 </motion.div>
@@ -163,17 +164,19 @@ const Talent = () => {
         ))}
         
         {/* Call to Action for Full Roster */}
-        <div className="text-center pt-20">
-            <p className="text-gray-500 mb-10 max-w-xl mx-auto italic">
+        {/* Top padding reduced from pt-20 to pt-12 */}
+        <div className="text-center pt-12"> 
+            {/* Margin reduced from mb-10 to mb-6 */}
+            <p className="text-gray-500 mb-2 max-w-xl mx-auto italic">
                 Ready to find the perfect fit? Contact us for access to our complete, vetted talent pool.
             </p>
             <motion.a
                 href="#contact"
                 whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(245, 158, 11, 0.5), 0 4px 6px -2px rgba(245, 158, 11, 0.2)" }}
                 whileTap={{ scale: 0.95 }}
-                // CTA button font size adjusted (text-lg was text-xl)
+                // CTA button font size confirmed as requested
                 className="inline-block bg-amber-500 text-gray-900 px-10 py-4 rounded-full font-extrabold text-lg 
-                          hover:bg-amber-400 transition-all duration-300 shadow-xl"
+                            hover:bg-amber-400 transition-all duration-300 shadow-xl"
             >
                 Request Full Roster & Briefing
             </motion.a>

@@ -24,8 +24,11 @@ const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('');
 
+  // IMPORTANT: Set your backend URL here. 
+  // If deployed, replace 'http://localhost:3001' with your actual backend domain (e.g., 'https://your-backend-api.com').
+  const BACKEND_URL = 'http://localhost:3001/api/send-email';
+
   const CONTACT_INFO = [
-    // Updated icons to use inline SVG components
     { icon: IconMapMarkerAlt, label: 'Headquarters', value: 'Nairobi, Kenya', href: '#' },
     { icon: IconEnvelope, label: 'Email', value: 'faceoffmodelncastmngt.info@gmail.com', href: 'mailto:faceoffmodelncastmngt.info@gmail.com' },
     { icon: IconPhoneAlt, label: 'Phone/WhatsApp', value: '+254741457909', href: 'tel:+254741457909' },
@@ -35,32 +38,50 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('Sending...');
 
-    // NOTE: External API calls (like axios) are not supported in this environment. 
-    // The submission is simulated to show the success state and UX.
-
     if (!formData.name || !formData.email || !formData.message) {
       setStatus('Please fill in all required fields.');
-      setTimeout(() => setStatus(''), 3000); // Clear status after 3 seconds
+      setTimeout(() => setStatus(''), 3000); 
       return;
     }
 
-    setTimeout(() => {
-      // Simulate successful submission
-      console.log('Form submission simulated:', formData);
-      setStatus('Message sent successfully! We will be in touch soon.');
-      setFormData({ name: '', email: '', message: '' });
-    }, 1500); // 1.5 second simulation delay
+    try {
+      const response = await fetch(BACKEND_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus('Message sent successfully! We will be in touch soon.');
+        setFormData({ name: '', email: '', message: '' }); // Clear form on success
+      } else {
+        // Handle API error messages
+        console.error('API Error:', result.message || 'Unknown error');
+        setStatus(`Failed to send message: ${result.message || 'Server error'}`);
+      }
+
+    } catch (error) {
+      console.error('Fetch Error:', error);
+      setStatus('Network error. Please try again later.');
+    } finally {
+        // Clear status message after 5 seconds
+        setTimeout(() => setStatus(''), 5000);
+    }
   };
 
   return (
     <section 
       id="contact" 
-      // Using bg-zinc-950 for consistency with other dark sections
-      className="py-24 md:py-32 lg:py-40 bg-zinc-950 text-white relative z-10"
+      // REDUCED: Padding top/bottom decreased for tighter vertical fit
+      className="py-16 md:py-24 lg:py-32 bg-zinc-950 text-white relative z-10"
     >
       <div className="container mx-auto px-6 max-w-7xl">
         <motion.h2
@@ -68,8 +89,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          // Consistent amber accent color for headings
-          className="text-3xl md:text-3xl font-serif font-extrabold mb-4 text-center tracking-tight text-amber-400"
+          className="text-3xl md:text-4xl font-serif font-extrabold mb-4 text-center tracking-tight text-amber-400"
         >
           Let's Start Your Campaign
         </motion.h2>
@@ -77,20 +97,23 @@ const Contact = () => {
           Reach out to discuss your casting needs, project scope, or agency partnerships.
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Details Column */}
+          
+          {/* Contact Details Column - Padding Reduced */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="space-y-10 p-8 lg:p-12 rounded-xl bg-gray-900 shadow-2xl border-t-4 border-amber-500/20"
+            // REDUCED: Internal padding from lg:p-12 to lg:p-8
+            className="space-y-8 p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 shadow-3xl border-2 border-amber-500/10"
           >
-            <h3 className="text-2xl font-bold font-sans text-amber-500 mb-6 border-b border-gray-700 pb-4">
+            <h3 className="text-2xl font-bold font-sans text-amber-500 mb-4 border-b border-gray-700 pb-4">
               Our Details
             </h3>
             {CONTACT_INFO.map((item, index) => (
-              <a key={index} href={item.href} className="flex items-start space-x-4 group">
-                {/* Icon usage (now inline SVG component) */}
+              // REDUCED: space-y-10 reduced to space-y-8 on the container, and slight margin adjustment on the item link
+              <a key={index} href={item.href} className="flex items-start space-x-4 group py-1">
+                {/* Icon usage */}
                 <item.icon className="text-3xl text-amber-500 flex-shrink-0 mt-1 group-hover:text-amber-400 transition-colors duration-300" />
                 <div>
                   <p className="text-sm uppercase tracking-widest font-semibold text-gray-400">{item.label}</p>
@@ -99,40 +122,39 @@ const Contact = () => {
               </a>
             ))}
             <div className="pt-6 border-t border-gray-700">
-              <p className="text-sm uppercase tracking-widest font-semibold text-gray-400 mb-4">Connect</p>
+              <p className="text-sm uppercase tracking-widest font-semibold text-gray-400 mb-3">Connect</p>
               <div className="flex space-x-6">
                 <motion.a
                   href="https://instagram.com/face_of.modelncastmanagement"
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2 }}
+                  whileHover={{ scale: 1.2, color: '#E879F9' }} // Pink-500 equivalent hover
                   className="text-3xl text-white hover:text-pink-500 transition-colors"
                   aria-label="Instagram"
                 >
-                  {/* Icon usage (now inline SVG component) */}
                   <IconInstagram />
                 </motion.a>
                 <motion.a
                   href="https://wa.me/254741457909"
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2 }}
+                  whileHover={{ scale: 1.2, color: '#10B981' }} // Green-500 equivalent hover
                   className="text-3xl text-white hover:text-green-500 transition-colors"
                   aria-label="WhatsApp"
                 >
-                  {/* Icon usage (now inline SVG component) */}
                   <IconWhatsapp />
                 </motion.a>
               </div>
             </div>
           </motion.div>
           
-          {/* Contact Form Column */}
+          {/* Contact Form Column - Padding Reduced */}
           <form
             onSubmit={handleSubmit}
-            className="p-8 lg:p-12 rounded-xl bg-white shadow-2xl space-y-6"
+            // REDUCED: Internal padding from lg:p-12 to lg:p-8 and space-y reduced
+            className="p-6 lg:p-8 rounded-2xl bg-white shadow-3xl space-y-5 text-gray-900" 
           >
-            <h3 className="text-3xl font-bold font-sans text-gray-900 mb-6 border-b border-gray-200 pb-4">
+            <h3 className="text-3xl font-bold font-sans text-gray-900 mb-5 border-b border-gray-200 pb-4">
               Send a Message
             </h3>
             {['name', 'email', 'message'].map((field) => (
@@ -146,8 +168,8 @@ const Contact = () => {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    rows="5"
-                    className="text-gray-900 w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-amber-500 transition-colors resize-y"
+                    rows="4" // Reduced rows from 5 to 4
+                    className="text-gray-900 w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-amber-500 transition-colors resize-y"
                     required
                   />
                 ) : (
@@ -157,28 +179,32 @@ const Contact = () => {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="text-gray-900 w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
+                    className="text-gray-900 w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-amber-500 transition-colors"
                     required
                   />
                 )}
               </div>
             ))}
-            <button
+            <motion.button
               type="submit"
-              // Adjusted to use amber colors for consistency
-              className="w-full bg-amber-500 text-gray-900 px-6 py-4 rounded-lg font-bold text-lg uppercase tracking-wider hover:bg-amber-400 transition-colors duration-200 shadow-xl focus:ring-4 focus:ring-amber-300 focus:ring-opacity-50"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-amber-500 text-gray-900 px-6 py-3 rounded-lg font-bold text-lg uppercase tracking-wider hover:bg-amber-400 transition-colors duration-200 shadow-xl focus:ring-4 focus:ring-amber-300 focus:ring-opacity-50 disabled:opacity-70 disabled:cursor-not-allowed"
               disabled={status === 'Sending...'}
             >
               {status === 'Sending...' ? 'Sending...' : 'Book Your Talent'}
-            </button>
-            {status && status !== 'Sending...' && (
-              <p
-                className={`text-center font-semibold text-lg py-2 rounded ${
+            </motion.button>
+            {status && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className={`text-center font-semibold text-lg py-3 rounded-lg ${
                   status.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                 }`}
               >
                 {status}
-              </p>
+              </motion.p>
             )}
           </form>
         </div>

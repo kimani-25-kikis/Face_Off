@@ -1,11 +1,41 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
+// NOTE: Since this Header component is assumed to be part of a larger, 
+// single-file React app, we are removing 'react-router-dom' imports as 
+// routing is handled via simple anchor tags and state in this single-file environment.
+// If this component were stand-alone, 'Link' would be used.
+// -------------------------------------------------------------------
+// FIREBASE IMPORTS (Necessary for React setup in this environment)
+// -------------------------------------------------------------------
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+const app = Object.keys(firebaseConfig).length > 0 ? initializeApp(firebaseConfig) : null;
+const db = app ? getFirestore(app) : null;
+const auth = app ? getAuth(app) : null;
+
+if (auth) {
+    if (typeof __initial_auth_token !== 'undefined') {
+        signInWithCustomToken(auth, __initial_auth_token).catch(console.error);
+    } else {
+        signInAnonymously(auth).catch(console.error);
+    }
+}
+// -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
 // 1. SVG Icons (Used within this component)
-//    - Using clean, professional icons suitable for a classic portfolio.
 // -------------------------------------------------------------------
+
+// WhatsApp Icon (A more actionable contact point)
+const IconWhatsapp = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-square">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+);
 
 // Instagram Icon
 const IconInstagram = (props) => (
@@ -33,7 +63,7 @@ const IconTimes = (props) => (
   </svg>
 );
 
-// Navigation Icons (Mapping) - Using professional, clear icons
+// Navigation Icons (Mapping)
 const NavIcons = {
   about: (props) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-notebook-text">
@@ -87,25 +117,53 @@ const Header = () => {
   ];
 
   // Define Classic Color Classes: Deep Charcoal + Rich Gold
-  const headerBg = "bg-gray-800";
+  const headerBg = "bg-gray-950"; // Deeper background
   const headerText = "text-white";
-  const goldAccent = "text-amber-400"; // Richer gold than default
+  const goldAccent = "text-amber-300"; // Richer gold/bronze
   const hoverColor = "hover:text-amber-300";
 
+  /**
+   * Unified navigation handler for both desktop and mobile.
+   * Ensures smooth scrolling to the target section ID.
+   */
+  const handleNavigation = (e, href) => {
+    // 1. Close the mobile menu first
+    setIsOpen(false);
+    
+    // 2. Prevent default anchor behavior
+    e.preventDefault(); 
+    
+    // 3. Smooth scroll to the section
+    const targetId = href.substring(1);
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Fallback for environments where smooth scroll isn't supported
+      window.location.hash = href;
+    }
+  };
+
+
   return (
-    <header className={`fixed top-0 left-0 w-full ${headerBg} ${headerText} z-50 shadow-xl border-b border-amber-900/50`}>
-      {/* Increased vertical padding (py-5) for better spacing/height */}
-      <nav className="container mx-auto px-6 py-5 flex justify-between items-center transition-all duration-300">
+    <header className={`fixed top-0 left-0 w-full ${headerBg} ${headerText} z-50 shadow-2xl border-b border-amber-900/50 font-sans`}>
+      {/* Increased vertical padding (py-4) for better spacing/height */}
+      <nav className="container mx-auto px-6 py-4 flex justify-between items-center transition-all duration-300">
         
         {/* Logo/Brand Title: Uses font-serif for authority, better spacing */}
-        <Link 
-          to="/" 
+        <a 
+          href="#top" 
           className="group focus:outline-none"
-          onClick={() => setIsOpen(false)}
+          onClick={(e) => {
+            e.preventDefault();
+            setIsOpen(false);
+            // Manually scroll to top of page on logo click (home)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
         >
           <motion.span
             // Larger text and bold serif font for a classic look
-            className={`text-3xl lg:text-4xl font-serif font-bold tracking-tight transition-colors duration-300 ${goldAccent}`}
+            className={`text-3xl font-serif font-bold tracking-tight transition-colors duration-300 ${goldAccent}`}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100 }}
@@ -113,47 +171,47 @@ const Header = () => {
             FACE OFF
           </motion.span>
           {/* Tagline is font-sans, uppercase, and widely tracked for elegance */}
-          <span className="block text-xs font-sans font-medium tracking-widest text-gray-400 uppercase mt-[-2px] group-hover:text-amber-400 transition-colors duration-300">
+          <span className="block text-xs font-sans font-medium tracking-[0.2em] text-gray-400 uppercase mt-[-2px] group-hover:text-amber-300 transition-colors duration-300">
             Model & Cast Management
           </span>
-        </Link>
+        </a>
         
-        {/* Desktop Navigation: Changed spacing to space-x-12 and text size to base */}
-        <ul className="hidden md:flex md:space-x-12">
+        {/* Desktop Navigation: REDUCED SPACING HERE */}
+        <ul className="hidden md:flex md:space-x-6 lg:space-x-8"> 
           {navItems.map((item) => (
             <motion.li 
               key={item.name} 
               className="group"
-              whileHover={{ y: -2 }} // Subtle interaction
+              whileHover={{ scale: 1.05 }} // Subtle interaction on hover
             >
               <a
                 href={item.href}
-                // CHANGED: text-lg to text-base to accommodate wider spacing
-                className={`flex items-center space-x-2 text-base font-serif font-medium uppercase tracking-wider ${headerText} ${hoverColor} transition-all duration-300 relative`}
+                onClick={(e) => handleNavigation(e, item.href)}
+                className={`flex items-center space-x-2 text-sm lg:text-base font-semibold uppercase tracking-wider ${headerText} transition-all duration-300 px-3 py-2 rounded-full 
+                            relative overflow-hidden group-hover:bg-amber-800/20 group-hover:text-amber-300`}
               >
-                {/* Icon for desktop view */}
-                <item.icon className={`w-5 h-5 ${goldAccent} flex-shrink-0 group-hover:text-amber-300 transition-colors duration-200`} />
+                <item.icon className={`w-5 h-5 ${goldAccent} flex-shrink-0 transition-colors duration-200 group-hover:text-amber-300`} />
                 <span>{item.name}</span>
-                {/* Custom underline effect for a clean, classic accent */}
-                <span className="absolute left-0 bottom-[-5px] w-full h-0.5 bg-amber-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                {/* Elegant Pill-shaped underline effect on hover */}
+                <span className="absolute inset-0 bg-amber-400/10 transition-opacity duration-300 opacity-0 group-hover:opacity-100 rounded-full z-[-1]"></span>
               </a>
             </motion.li>
           ))}
         </ul>
 
-        {/* Instagram Link (Desktop Only) */}
+        {/* Action Button (Desktop Only): WhatsApp/Book Now */}
         <motion.a
-          href="https://instagram.com/face_of.modelncastmanagement"
+          href="https://wa.me/254741457909"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Visit our Instagram"
-          // Styled as a subtle, bordered button
-          className="hidden md:flex items-center space-x-2 text-sm uppercase font-sans font-medium transition-all duration-300 rounded-full p-2 border border-amber-400/50 hover:bg-amber-400 hover:text-gray-800"
+          aria-label="Book a consultation via WhatsApp"
+          // Styled as a prominent, gold-filled button
+          className="hidden md:flex items-center space-x-2 text-sm uppercase font-bold transition-all duration-300 rounded-full py-3 px-6 bg-amber-400 text-gray-900 shadow-lg hover:bg-amber-300 hover:shadow-xl transform hover:scale-[1.02]"
           whileHover={{ scale: 1.05 }} 
           whileTap={{ scale: 0.95 }}
         >
-          <IconInstagram className="w-5 h-5" />
-          <span className="hidden lg:inline">Instagram</span>
+          <IconWhatsapp className="w-5 h-5" strokeWidth={3} />
+          <span>Book Now</span>
         </motion.a>
         
         {/* Mobile Menu Button & Instagram */}
@@ -172,7 +230,7 @@ const Header = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle navigation menu"
-            className={`focus:outline-none p-2 rounded ${goldAccent} transition-colors duration-200 hover:bg-amber-400/10`}
+            className={`focus:outline-none p-2 rounded-full ${goldAccent} transition-colors duration-200 hover:bg-amber-400/10`}
           >
             <motion.div
                 initial={false}
@@ -197,12 +255,12 @@ const Header = () => {
           closed: { height: 0, opacity: 0, paddingTop: "0px", paddingBottom: "0px" },
         }}
         transition={{ duration: 0.3, ease: [0.17, 0.67, 0.83, 0.67] }} 
-        className={`md:hidden overflow-hidden ${headerBg} shadow-inner border-t border-amber-900/50`}
+        className={`md:hidden overflow-hidden ${headerBg} shadow-inner border-t border-gray-800/80`}
       >
         {navItems.map((item, index) => (
           <motion.li 
             key={item.name} 
-            className="px-6 py-3"
+            className="px-6 py-2"
             variants={{
               open: { opacity: 1, y: 0, transition: { delay: index * 0.05 + 0.1 } },
               closed: { opacity: 0, y: -20, transition: { duration: 0.1 } },
@@ -210,15 +268,34 @@ const Header = () => {
           >
             <a
               href={item.href}
+              onClick={(e) => handleNavigation(e, item.href)}
               // Text-xl and ample space-x-5 for large, touch-friendly targets (Mobile)
-              className={`flex items-center space-x-5 text-xl font-sans font-semibold ${headerText} hover:text-amber-400 transition-colors duration-200 block p-2 rounded-lg`}
-              onClick={() => setIsOpen(false)}
+              className={`flex items-center space-x-5 text-lg font-semibold ${headerText} hover:text-amber-400 transition-colors duration-200 block p-3 rounded-lg hover:bg-gray-800`}
             >
               <item.icon className={`w-6 h-6 ${goldAccent} flex-shrink-0`} />
               <span>{item.name}</span>
             </a>
           </motion.li>
         ))}
+        {/* Mobile Call to Action */}
+        <motion.li 
+            className="px-6 py-4 border-t border-gray-800"
+            variants={{
+                open: { opacity: 1, y: 0, transition: { delay: navItems.length * 0.05 + 0.1 } },
+                closed: { opacity: 0, y: -20, transition: { duration: 0.1 } },
+            }}
+        >
+            <a
+                href="https://wa.me/254741457909"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center space-x-3 text-base font-bold transition-all duration-300 rounded-full py-3 bg-amber-400 text-gray-900 shadow-md hover:bg-amber-300"
+                onClick={() => setIsOpen(false)}
+            >
+                <IconWhatsapp className="w-5 h-5" strokeWidth={3} />
+                <span>WhatsApp Consultation</span>
+            </a>
+        </motion.li>
       </motion.ul>
     </header>
   );
