@@ -39,7 +39,7 @@ const Hero = () => {
         className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out pointer-events-none"
         // Using a placeholder image for reliable loading
         style={{ 
-            backgroundImage: 'url(/Face_Off/Port3.jpeg)', 
+            backgroundImage: 'url(Port3.jpeg)', 
             backgroundColor: '#111827', 
         }}
       >

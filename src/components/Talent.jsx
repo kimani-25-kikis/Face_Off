@@ -35,27 +35,27 @@ const talentCategories = [
     category: 'Fashion & Editorial Models',
     icon: IconFeather, 
     data: [
-      { name: 'Model 1', role: 'Fashion Model', image: '/Face_Off/p1.jpeg' },
-      { name: 'Model 3', role: 'Runway Specialist', image: '/Face_Off/p2.jpeg' },
-      { name: 'Model 5', role: 'Commercial Lead', image: '/Face_Off/Port2.jpeg' }, 
+      { name: 'Model 1', role: 'Fashion Model', image: 'p1.jpeg' },
+      { name: 'Model 3', role: 'Runway Specialist', image: 'p2.jpeg' },
+      { name: 'Model 5', role: 'Commercial Lead', image: 'Port2.jpeg' }, 
     ],
   },
   {
     category: 'Actors & Performers',
     icon: IconUsers, 
     data: [
-      { name: 'Model 2', role: 'Actor (TV/Film)', image: '/Face_Off/p3.jpeg' },
-      { name: 'Model 4', role: 'Designer', image: '/Face_Off/p6.jpeg' }, 
-      { name: 'Model 6', role: 'Pagent Judge', image: '/Face_Off/p7.jpeg' }, 
+      { name: 'Model 2', role: 'Actor (TV/Film)', image: 'p3.jpeg' },
+      { name: 'Model 4', role: 'Designer', image: 'p6.jpeg' }, 
+      { name: 'Model 6', role: 'Pagent Judge', image: 'p7.jpeg' }, 
     ],
   },
   {
     category: 'Event Hosts & MCs',
     icon: IconMic, 
     data: [
-      { name: 'Performer 7', role: 'Coopearate MC', image: '/Face_Off/p4.jpeg' }, 
-      { name: 'Performer 8', role: 'Song Writer', image: '/Face_Off/p5.jpeg' }, 
-      { name: 'Performer 9', role: 'Spoken Word Artist', image: '/Face_Off/Port3.jpeg' }, 
+      { name: 'Performer 7', role: 'Coopearate MC', image: 'p4.jpeg' }, 
+      { name: 'Performer 8', role: 'Song Writer', image: 'p5.jpeg' }, 
+      { name: 'Performer 9', role: 'Spoken Word Artist', image: 'Port3.jpeg' }, 
     ],
   },
 ];
