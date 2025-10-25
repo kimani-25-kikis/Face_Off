@@ -24,7 +24,7 @@ const IconPhoneAlt = (props) => (<svg {...props} xmlns="http://www.w3.org/2000/s
 const IconInstagram = (props) => (<svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>);
 
 // Icon for WhatsApp/Message (FaWhatsapp)
-const IconWhatsapp = (props) => (<svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 9 0 0 0 4 16.1V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3.9"/><path d="M12 22a9 9 0 0 0 7.9-4"/></svg>);
+const IconWhatsapp = (props) => (<svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 0 0 4 16.1V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3.9"/><path d="M12 22a9 9 0 0 0 7.9-4"/></svg>);
 
 // --- END: Inline SVG Icon Components ---
 
@@ -52,10 +52,10 @@ const Contact = () => {
       return;
     }
     
-    // Data object must match the variables defined in your EmailJS template.
-    // 'from_email' here is CRITICAL as it holds the user's reply address.
+    // MODIFICATION: Changed the key from 'from_name' to 'name'
+    // This ensures the data matches the EmailJS template variable {{name}}
     const templateParams = {
-        from_name: formData.name, 
+        name: formData.name, // Now sending as 'name'
         from_email: formData.email, 
         message: formData.message,
     };
