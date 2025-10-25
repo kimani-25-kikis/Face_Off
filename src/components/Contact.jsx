@@ -54,7 +54,7 @@ const Contact = () => {
     
     // Data object must match the variables defined in your EmailJS template (e.g., {{name}}, {{email}}, {{message}})
     const templateParams = {
-        from_name: formData.name, // Will be used in the template's subject/body
+        name: formData.name, // Will be used in the template's subject/body
         from_email: formData.email, 
         message: formData.message,
     };
