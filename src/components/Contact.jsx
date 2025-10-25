@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+
+// --- PLACEHOLDER EMAILJS CONFIGURATION ---
+// !!! IMPORTANT: YOU MUST REPLACE THESE VALUES WITH YOUR REAL EMAILJS IDs !!!
+const EMAILJS_SERVICE_ID = 'service_0oqo4vc';
+const EMAILJS_TEMPLATE_ID = 'template_8eaf7k5';
+const EMAILJS_PUBLIC_KEY = 'iLcIZWygiopFgHEl_';
+// ------------------------------------------
+
 // --- START: Inline SVG Icon Components (Replaces react-icons/fa) ---
 
 // Icon for Map Marker (FaMapMarkerAlt)
@@ -24,10 +32,6 @@ const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('');
 
-  // --- RENDER URL UPDATED ---
-  // This is now pointing to your live Render backend service.
-  const BACKEND_URL = 'https://face-off-backend.onrender.com/api/send-email';
-
   const CONTACT_INFO = [
     { icon: IconMapMarkerAlt, label: 'Headquarters', value: 'Nairobi, Kenya', href: '#' },
     { icon: IconEnvelope, label: 'Email', value: 'faceoffmodelncastmngt.info@gmail.com', href: 'mailto:faceoffmodelncastmngt.info@gmail.com' },
@@ -47,34 +51,36 @@ const Contact = () => {
       setTimeout(() => setStatus(''), 3000); 
       return;
     }
+    
+    // Data object must match the variables defined in your EmailJS template (e.g., {{name}}, {{email}}, {{message}})
+    const templateParams = {
+        from_name: formData.name, // Will be used in the template's subject/body
+        from_email: formData.email, 
+        message: formData.message,
+    };
 
-    try {
-      const response = await fetch(BACKEND_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    try {
+        // Check if the emailjs library is loaded
+        if (typeof window.emailjs === 'undefined') {
+            throw new Error("EmailJS SDK not loaded. Check firebase_config.jsx.");
+        }
 
-      const result = await response.json();
+        const result = await window.emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            templateParams,
+            EMAILJS_PUBLIC_KEY
+        );
 
-      if (response.ok && result.success) {
-        setStatus('Message sent successfully! We will be in touch soon.');
-        setFormData({ name: '', email: '', message: '' }); // Clear form on success
-      } else {
-        // Handle API error messages
-        console.error('API Error:', result.message || 'Unknown error');
-        setStatus(`Failed to send message: ${result.message || 'Server error'}`);
-      }
-
-    } catch (error) {
-      console.error('Fetch Error:', error);
-      setStatus('Network error. Please try again later.');
-    } finally {
-        // Clear status message after 5 seconds
-        setTimeout(() => setStatus(''), 5000);
-    }
+        console.log('Email sent successfully:', result);
+        setStatus('Message sent successfully! We will be in touch soon.');
+        setFormData({ name: '', email: '', message: '' }); // Clear form on success
+    } catch (error) {
+        console.error('EmailJS Error:', error);
+        setStatus(`Failed to send message: ${error.message || 'Check your EmailJS IDs and template.'}`);
+    } finally {
+        setTimeout(() => setStatus(''), 5000);
+    }
   };
 
   return (
