@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 // --- PLACEHOLDER EMAILJS CONFIGURATION ---
 // !!! IMPORTANT: YOU MUST REPLACE THESE VALUES WITH YOUR REAL EMAILJS IDs !!!
-const EMAILJS_SERVICE_ID = 'service_0oqo4vc';
-const EMAILJS_TEMPLATE_ID = 'template_8eaf7k5';
-const EMAILJS_PUBLIC_KEY = 'iLcIZWygiopFgHEl_';
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 // ------------------------------------------
 
 // --- START: Inline SVG Icon Components (Replaces react-icons/fa) ---
@@ -60,18 +61,13 @@ const Contact = () => {
     };
 
     try {
-        // Check if the emailjs library is loaded
-        if (typeof window.emailjs === 'undefined') {
-            throw new Error("EmailJS SDK not loaded. Please check your index.html file.");
-        }
-
-        const result = await window.emailjs.send(
-            EMAILJS_SERVICE_ID,
-            EMAILJS_TEMPLATE_ID,
-            templateParams,
-            EMAILJS_PUBLIC_KEY
-        );
-
+        const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+        
         console.log('Email sent successfully:', result);
         setStatus('Message sent successfully! We will be in touch soon.');
         setFormData({ name: '', email: '', message: '' }); // Clear form on success
